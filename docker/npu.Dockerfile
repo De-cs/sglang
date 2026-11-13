@@ -99,6 +99,8 @@ RUN . /etc/environment_new && \
     (${PIP_INSTALL} torch==${PYTORCH_VERSION} torchvision==${TORCHVISION_VERSION} torchaudio==${TORCHAUDIO_VERSION} --index-url https://download.pytorch.org/whl/cpu) \
     && (${PIP_INSTALL} torch-npu==${TORCH_NPU_VERSION} --extra-index-url ${TORCH_NPU_INDEX_URL})
 
+### Install MindIE-SD without replacing the pinned Torch/TorchNPU stack.
+RUN ${PIP_INSTALL} --no-deps "mindiesd==3.2.0"
 
 ### Install ModelScope & EvalScope
 # Installed right after torch/torch-npu so their dependencies resolve against the pinned torch.

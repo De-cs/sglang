@@ -1144,11 +1144,12 @@ def test_h3_quant_config_reaches_native_mxfp8_dispatch(legacy_native, packed):
 
 @pytest.fixture(scope="module")
 def native():
-    pytest.importorskip("torch_npu")
+    import torch_npu  # noqa: F401
+
     # Import the SDK before initializing an NPU context.
     provider = load_mindiesd_quant_attention()
     if not torch.npu.is_available() or torch.npu.get_soc_version() < 260:
-        pytest.skip("requires Ascend 950")
+        pytest.fail("requires Ascend 950")
     torch.npu.set_device(0)
     return provider
 

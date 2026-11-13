@@ -77,6 +77,7 @@ ${PIP_INSTALL} sglang-router
 
 ${UV_PIP_INSTALL} torch==${PYTORCH_VERSION} torchvision==0.25.0 torchaudio==2.10.0 --index-url ${TORCH_CACHE_URL:="https://download.pytorch.org/whl/cpu"} --extra-index-url ${PYPI_CACHE_URL:="https://pypi.org/simple/"}
 ${PIP_INSTALL} torch-npu==2.10.0.post6 --extra-index-url https://ascend.devcloud.huaweicloud.com/pypi/simple/
+${PIP_INSTALL} --no-deps "mindiesd==3.2.0"
 
 case "$(arch)" in
 aarch64)
