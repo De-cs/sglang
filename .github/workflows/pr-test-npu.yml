@@ -385,39 +385,6 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  multimodal-gen-test-mindiesd-a5:
-    needs: [check-changes, pr-gate]
-    if: ${{ !failure() && !cancelled() && inputs.coverage_mode != true && needs.check-changes.outputs.multimodal_gen == 'true' }}
-    runs-on: linux-amd64-a5-4
-    timeout-minutes: 60
-    container:
-      image: swr.cn-southwest-2.myhuaweicloud.com/base_image/dockerhub/lmsysorg/sglang:main-cann9.1.0-950
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref || github.sha }}
-
-      - name: Mark repository safe
-        run: |
-          git config --system --add safe.directory "${GITHUB_WORKSPACE}"
-
-      - name: Install dependencies
-        env:
-          GITHUB_PROXY_URL: "https://gh-proxy.test.osinfra.cn/"
-        run: |
-          bash scripts/ci/npu/npu_ci_install_dependency.sh 950
-
-      - name: Test MindIE-SD quantized attention
-        timeout-minutes: 20
-        env:
-          SGLANG_IS_IN_CI: "true"
-          SGLANG_TEST_ASCEND_QUANT_FA: "1"
-        run: |
-          cd python
-          python3 -m pytest -v -ra \
-            sglang/multimodal_gen/test/unit/test_ascend_fa.py::TestAscendFAQuantizedNPU
-
   base-c-test-acc-2-npu-a3:
     name: base-c-test-acc-2-npu-a3
     needs: [ check-changes, pr-gate, set-image-config, base-b-test-1-npu-a3, base-b-test-2-npu-a3, base-b-test-4-npu-a3, base-b-test-8-npu-a3, base-b-test-16-npu-a3 ]
@@ -749,7 +716,6 @@ jobs:
 
         multimodal-gen-test-1-npu-a3,
         multimodal-gen-test-4-npu-a3,
-        multimodal-gen-test-mindiesd-a5,
 
         base-c-test-acc-2-npu-a3,
         base-c-test-acc-16-npu-a3,

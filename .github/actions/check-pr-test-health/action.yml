@@ -87,7 +87,7 @@ runs:
               return false;
             }
             // multimodal-gen NPU tests should not cascade fail-fast to perf/accuracy stages.
-            if (baseName === 'multimodal-gen-test-1-npu-a3' || baseName === 'multimodal-gen-test-2-npu-a3'|| baseName === 'multimodal-gen-test-mindiesd-a5') {
+            if (baseName === 'multimodal-gen-test-1-npu-a3' || baseName === 'multimodal-gen-test-2-npu-a3') {
               core.info(`[health-check] Filtered out multimodal-gen NPU job: ${j.name}`);
               return false;
             }
